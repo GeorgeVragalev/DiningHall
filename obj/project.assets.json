@@ -213,11 +213,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\vraga\\RiderProjects\\RestaurantSimulator\\DiningHall\\DiningHall.csproj",
+      "projectUniqueName": "C:\\Users\\vraga\\RiderProjects\\Restaurant\\DiningHall\\DiningHall.csproj",
       "projectName": "DiningHall",
-      "projectPath": "C:\\Users\\vraga\\RiderProjects\\RestaurantSimulator\\DiningHall\\DiningHall.csproj",
+      "projectPath": "C:\\Users\\vraga\\RiderProjects\\Restaurant\\DiningHall\\DiningHall.csproj",
       "packagesPath": "C:\\Users\\vraga\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vraga\\RiderProjects\\RestaurantSimulator\\DiningHall\\obj\\",
+      "outputPath": "C:\\Users\\vraga\\RiderProjects\\Restaurant\\DiningHall\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\vraga\\AppData\\Roaming\\NuGet\\NuGet.Config",

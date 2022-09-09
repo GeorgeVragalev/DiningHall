@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "oQxLAmzCPRTOOwjKYVEKYiGXVkGy9UtsmHPoRj+54gyPxU57QnNKKu93tRBD4pAOnoQNBE1O/ODDRykrImSTlw==",
+  "dgSpecHash": "HJtM4voq8+oXD4D6epsx5oydOI6pmlCa6PiT40ohcRJVpOc0TUZo9Q4ISvpgaPHvkxCCo2NYwznDgvlamJbUbQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\vraga\\RiderProjects\\RestaurantSimulator\\DiningHall\\DiningHall.csproj",
+  "projectFilePath": "C:\\Users\\vraga\\RiderProjects\\Restaurant\\DiningHall\\DiningHall.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vraga\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\vraga\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
