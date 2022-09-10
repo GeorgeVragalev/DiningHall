@@ -467,6 +467,8 @@ out/
 
 .idea
 
+obj
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
