@@ -17,11 +17,12 @@ public class Startup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        services.AddScoped<ITableRepository, TableRepository>();
         services.AddScoped<IWaiterRepository, WaiterRepository>();
+        services.AddScoped<ITableRepository, TableRepository>();
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IFoodRepository, FoodRepository>();
-        services.AddScoped<IOrderService, OrderService >();
+        services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IDiningHall, DiningHall.DiningHall>();
         services.AddHostedService<BackgroundTask.BackgroundTask>();
     }
 

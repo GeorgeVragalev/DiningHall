@@ -3,15 +3,17 @@ using DiningHall.Models;
 
 namespace DiningHall.BackgroundTask;
 
-public class BackgroundTask : IHostedService, IDisposable
+public class BackgroundTask : BackgroundService
 {
     private readonly ILogger<BackgroundTask> logger;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
     private Timer timer;
     private int number;
 
-    public BackgroundTask(ILogger<BackgroundTask> logger)
+    public BackgroundTask(ILogger<BackgroundTask> logger, IServiceScopeFactory serviceScopeFactory)
     {
         this.logger = logger;
+        _serviceScopeFactory = serviceScopeFactory;
     }
 
     public void Dispose()
@@ -19,10 +21,19 @@ public class BackgroundTask : IHostedService, IDisposable
         timer?.Dispose();
     }
 
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        using (var scope = _serviceScopeFactory.CreateScope())
+        {
+            var scoped = scope.ServiceProvider.GetRequiredService<IDiningHall>();
+            scoped.RunRestaurant();
+            //Do your stuff
+        }
+        await Task.CompletedTask;
+    }
+
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        Initialization.Start();
-
         await Task.CompletedTask;
     }
 

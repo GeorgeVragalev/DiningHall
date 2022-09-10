@@ -11,11 +11,11 @@ public class TableRepository : ITableRepository
         var maxTables = Models.Settings.Tables;
         for (var id = 1; id <= maxTables; id++)
         {
-         _tables.Add(new Table
-         {
-             Id = id,
-             Status = Status.Available
-         });   
+            _tables.Add(new Table
+            {
+                Id = id,
+                Status = Status.Available
+            });   
         }
         return _tables;
     }
