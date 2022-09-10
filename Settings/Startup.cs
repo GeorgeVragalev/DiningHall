@@ -1,4 +1,5 @@
-﻿using DiningHall.DiningHall;
+﻿using DiningHall.BackgroundTask;
+using DiningHall.DiningHall;
 using DiningHall.Repositories.FoodRepository;
 using DiningHall.Repositories.OrderRepository;
 using DiningHall.Repositories.TableRepository;
@@ -9,11 +10,6 @@ namespace DiningHall.Settings;
 public class Startup
 {
     private IConfiguration ConfigRoot { get; }
-
-    public Startup(IConfiguration configuration)
-    {
-        ConfigRoot = configuration;
-    }
 
     public void ConfigureServices(IServiceCollection services)
     {
@@ -27,6 +23,11 @@ public class Startup
         services.AddScoped<IFoodRepository, FoodRepository>();
         services.AddScoped<IOrderService, OrderService >();
         services.AddHostedService<BackgroundTask.BackgroundTask>();
+    }
+
+    public Startup(IConfiguration configuration)
+    {
+        ConfigRoot = configuration;
     }
 
     public void Configure(WebApplication app, IWebHostEnvironment env)
