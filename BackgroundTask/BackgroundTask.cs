@@ -1,4 +1,7 @@
-﻿namespace DiningHall.BackgroundTask;
+﻿using DiningHall.DiningHall;
+using DiningHall.Models;
+
+namespace DiningHall.BackgroundTask;
 
 public class BackgroundTask : IHostedService, IDisposable
 {
@@ -16,18 +19,11 @@ public class BackgroundTask : IHostedService, IDisposable
         timer?.Dispose();
     }
 
-    public Task StartAsync(CancellationToken cancellationToken)
+    public async Task StartAsync(CancellationToken cancellationToken)
     {
-        timer = new Timer(o =>
-            {
-                Interlocked.Increment(ref number);
-                logger.LogInformation($"Printing the worker number {number}");
-            },
-            null,
-            TimeSpan.Zero,
-            TimeSpan.FromSeconds(5));
+        Initialization.Start();
 
-        return Task.CompletedTask;
+        await Task.CompletedTask;
     }
 
     public Task StopAsync(CancellationToken cancellationToken)

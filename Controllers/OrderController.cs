@@ -4,20 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace DiningHall.Controllers;
 
 [ApiController]
-[Route("api/controller")]
+[Route("distribution")]
 public class OrderController : ControllerBase
 {
     [HttpPost]
-    public ActionResult Index()
+    public ActionResult Distribution([FromBody] FinishedOrder order)
     {
-        var order = new Order()
-        {
-            Id = 1,
-            Foods = new List<int>() {1, 2, 4},
-            MaxWait = 30,
-            TableId = 2,
-            WaiterId = 1
-        };
+        //Process order
+        //Call Dininghall function to process the Order and serve it back
+        
+        
         
         return new JsonResult(order);
     }

@@ -1,4 +1,11 @@
-﻿namespace DiningHall;
+﻿using DiningHall.DiningHall;
+using DiningHall.Repositories.FoodRepository;
+using DiningHall.Repositories.OrderRepository;
+using DiningHall.Repositories.TableRepository;
+using DiningHall.Repositories.WaiterRepository;
+using DiningHall.Services;
+
+namespace DiningHall.Settings;
 public class Startup
 {
     private IConfiguration ConfigRoot { get; }
@@ -14,6 +21,11 @@ public class Startup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+        services.AddScoped<ITableRepository, TableRepository>();
+        services.AddScoped<IWaiterRepository, WaiterRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IFoodRepository, FoodRepository>();
+        services.AddScoped<IOrderService, OrderService >();
         services.AddHostedService<BackgroundTask.BackgroundTask>();
     }
 

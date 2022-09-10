@@ -1,8 +1,6 @@
 ﻿namespace DiningHall.Models;
 
-public class Table
-{
-    public int Id { get; set; }
-    public Waiter WaiterId { get; set; }
+public class Table : BaseEntity
+{ 
     public Status Status { get; set; }
 }

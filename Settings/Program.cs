@@ -1,4 +1,4 @@
-using DiningHall;
+using DiningHall.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
