@@ -8,7 +8,5 @@ public class Order
     public int MaxWait { get; set; }
     public IList<int> Foods { get; set; }
 
-    public Order()
-    {
-    }
+    public Order() { }
 }
