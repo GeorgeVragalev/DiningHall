@@ -16,7 +16,7 @@ public class OrderRepository : IOrderRepository
 
     public Order GenerateOrder(int table, int waiter)
     {
-        IList<int> foodList = _foodRepository.GenerateOrderFood();
+        var foodList = _foodRepository.GenerateOrderFood();
         return new Order
         {
             Id = IdGenerator.GenerateId(),

@@ -5,4 +5,5 @@ namespace DiningHall.Repositories.TableRepository;
 public interface ITableRepository
 {
     public IList<Table> GenerateTables();
+    public Table GetFreeTable();
 }

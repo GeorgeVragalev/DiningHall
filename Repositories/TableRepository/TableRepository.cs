@@ -19,4 +19,18 @@ public class TableRepository : ITableRepository
         }
         return _tables;
     }
+    
+    public Table GetFreeTable()
+    {
+        foreach (var table in _tables)
+        {
+            if (table.Status == Status.Available)
+            {
+                table.Status = Status.Waiting;
+                return table;
+            }
+        }
+
+        return null;
+    }
 }

@@ -1,5 +1,4 @@
 ﻿using DiningHall.DiningHall;
-using DiningHall.Models;
 
 namespace DiningHall.BackgroundTask;
 
@@ -26,9 +25,12 @@ public class BackgroundTask : BackgroundService
         using (var scope = _serviceScopeFactory.CreateScope())
         {
             var scoped = scope.ServiceProvider.GetRequiredService<IDiningHall>();
+            Thread.Sleep(4000);
+
             scoped.RunRestaurant();
             //Do your stuff
         }
+
         await Task.CompletedTask;
     }
 
