@@ -8,7 +8,7 @@ public class WaiterRepository : IWaiterRepository
 
     public IList<Waiter> GenerateWaiters()
     {
-        var nrOfWaiters = Models.Settings.Waiters;
+        var nrOfWaiters = Settings.Settings.Waiters;
         for (var id = 1; id <= nrOfWaiters; id++)
         {
             _waiters.Add(new Waiter
@@ -35,5 +35,23 @@ public class WaiterRepository : IWaiterRepository
         }
 
         return waiterResult;
+    }
+
+    public IList<Waiter> GetAll()
+    {
+        return _waiters;
+    }
+
+    public Waiter GetAvailableWaiter()
+    {
+        foreach (var waiter in _waiters)
+        {
+            if (!waiter.IsBusy)
+            {
+                return waiter;
+            }
+        }
+        
+        return null;
     }
 }

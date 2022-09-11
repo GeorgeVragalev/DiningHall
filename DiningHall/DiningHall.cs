@@ -4,13 +4,16 @@ using DiningHall.Repositories.FoodRepository;
 using DiningHall.Repositories.OrderRepository;
 using DiningHall.Repositories.WaiterRepository;
 using DiningHall.Services;
+using DiningHall.Services.OrderService;
+using DiningHall.Services.TableService;
+using DiningHall.Services.WaiterService;
 using Newtonsoft.Json;
 
 namespace DiningHall.DiningHall;
 
 public class DiningHall : IDiningHall
 {
-    private readonly IWaiterRepository _waiterRepository;
+    private readonly IWaiterService _waiterService;
     private readonly IFoodRepository _foodRepository;
     private readonly ITableService _tableService;
     private readonly IOrderService _orderService;
@@ -20,18 +23,18 @@ public class DiningHall : IDiningHall
     public IList<Food> Menu;
 
 
-    public DiningHall( IWaiterRepository waiterRepository, IFoodRepository foodRepository, IOrderService orderService, ITableService tableService)
+    public DiningHall(IFoodRepository foodRepository, IOrderService orderService, ITableService tableService, IWaiterService waiterService)
     {
 
-        _waiterRepository = waiterRepository;
         _foodRepository = foodRepository;
         _orderService = orderService;
         _tableService = tableService;
+        _waiterService = waiterService;
     }
 
     private void InitializeDiningHall()
     {
-        Waiters = _waiterRepository.GenerateWaiters();
+        Waiters = _waiterService.GenerateWaiters();
         Tables = _tableService.GenerateTables();
         Menu = _foodRepository.GenerateFood();
     }
@@ -40,27 +43,27 @@ public class DiningHall : IDiningHall
     {
         InitializeDiningHall();
         
-        // while (true)
-        // {
+        while (true)
+        {
             Thread.Sleep(4000);
         
             var freeTableId = _tableService.GetFreeTableId();
-            // var waiter = _orderService.GetAvailableWaiter(Waiters);
-            if (freeTableId == 0 /*&& waiter==null*/)
+            var waiter = _waiterService.GetAvailableWaiter();
+            if (freeTableId == 0 && waiter==null)
             {
                 Thread.Sleep(2000);
                 // continue;
             }
             
-            var order = _orderService.TakeOrder(freeTableId, 2);
+            var order = _orderService.TakeOrder(freeTableId, waiter.Id);
             
             _orderService.SendOrder(order);
-        // }
+        }
     }
 
     public async void ServeOrder(FinishedOrder finishedOrder)
     {
-        var waiter = _waiterRepository.GetWaiterById(finishedOrder.WaiterId);
+        var waiter = _waiterService.GetWaiterById(finishedOrder.WaiterId);
         
     }
     

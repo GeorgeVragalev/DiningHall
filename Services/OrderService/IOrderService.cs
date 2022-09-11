@@ -1,6 +1,6 @@
 ﻿using DiningHall.Models;
 
-namespace DiningHall.Services;
+namespace DiningHall.Services.OrderService;
 
 public interface IOrderService
 {

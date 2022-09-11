@@ -1,7 +1,7 @@
 ﻿using DiningHall.Models;
 using DiningHall.Repositories.TableRepository;
 
-namespace DiningHall.Services;
+namespace DiningHall.Services.TableService;
 
 public class TableService : ITableService
 {

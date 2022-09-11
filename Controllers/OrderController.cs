@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace DiningHall.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
-// [Route("/distribution")]
+// [Route("api/[controller]")]
+[Route("/distribution")]
 public class OrderController : ControllerBase
 {
     private readonly IDiningHall _diningHall;
@@ -27,12 +27,6 @@ public class OrderController : ControllerBase
         _diningHall.ServeOrder(new FinishedOrder());
 
         return new FinishedOrder();
-    }
-
-    [HttpGet]
-    public Food GetFood(int id)
-    {
-        return _foodRepository.GetFoodById(id);
     }
 
 }

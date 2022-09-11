@@ -6,7 +6,7 @@ public class BackgroundTask : BackgroundService
 {
     private readonly ILogger<BackgroundTask> logger;
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private Timer timer;
+    private readonly Timer _timer;
     private int number;
 
     public BackgroundTask(ILogger<BackgroundTask> logger, IServiceScopeFactory serviceScopeFactory)
@@ -17,21 +17,21 @@ public class BackgroundTask : BackgroundService
 
     public void Dispose()
     {
-        timer?.Dispose();
+        _timer?.Dispose();
     }
 
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        using (var scope = _serviceScopeFactory.CreateScope())
-        {
-            var scoped = scope.ServiceProvider.GetRequiredService<IDiningHall>();
-            Thread.Sleep(4000);
-
-            scoped.RunRestaurant();
-            //Do your stuff
-        }
-
-        await Task.CompletedTask;
+        // while (!stoppingToken.IsCancellationRequested)
+        // {
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                var scoped = scope.ServiceProvider.GetRequiredService<IDiningHall>();
+                // _timer = new Timer(scoped.RunRestaurant(), TimeSpan.FromMinutes(1), TimeSpan.MaxValue);
+                scoped.RunRestaurant();
+            }
+        // } 
+        return Task.CompletedTask;
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)

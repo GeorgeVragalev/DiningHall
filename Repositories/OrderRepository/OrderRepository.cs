@@ -21,7 +21,7 @@ public class OrderRepository : IOrderRepository
         {
             Id = IdGenerator.GenerateId(),
             Priority = RandomGenerator.NumberGenerator(3),
-            CreatedOnUtc = DateTime.UtcNow,
+            PickUpTime = DateTime.UtcNow,
             Foods = foodList,
             TableId = table,
             WaiterId = waiter,

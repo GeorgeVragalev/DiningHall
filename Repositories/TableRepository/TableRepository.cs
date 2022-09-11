@@ -8,7 +8,7 @@ public class TableRepository : ITableRepository
 
     public IList<Table> GenerateTables()
     {
-        var maxTables = Models.Settings.Tables;
+        var maxTables = Settings.Settings.Tables;
         for (var id = 1; id <= maxTables; id++)
         {
             _tables.Add(new Table

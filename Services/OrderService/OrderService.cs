@@ -3,7 +3,7 @@ using DiningHall.Models;
 using DiningHall.Repositories.OrderRepository;
 using Newtonsoft.Json;
 
-namespace DiningHall.Services;
+namespace DiningHall.Services.OrderService;
 
 public class OrderService : IOrderService
 {
@@ -25,7 +25,7 @@ public class OrderService : IOrderService
         var json = JsonConvert.SerializeObject(order);
         var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-        var url = "https://localhost:7090/api/Order";
+        var url = Settings.Settings.KitchenUrl;
         using var client = new HttpClient();
 
         var response = await client.PostAsync(url, data);
