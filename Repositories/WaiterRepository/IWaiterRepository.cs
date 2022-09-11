@@ -1,11 +1,12 @@
-﻿using DiningHall.Models;
+﻿using System.Collections.Concurrent;
+using DiningHall.Models;
 
 namespace DiningHall.Repositories.WaiterRepository;
 
 public interface IWaiterRepository
 {
-    public IList<Waiter> GenerateWaiters();
+    public ConcurrentBag<Waiter> GenerateWaiters();
     public Waiter GetWaiterById(int id);
-    public IList<Waiter> GetAll();
+    public ConcurrentBag<Waiter> GetAll();
     public Waiter GetAvailableWaiter();
 }

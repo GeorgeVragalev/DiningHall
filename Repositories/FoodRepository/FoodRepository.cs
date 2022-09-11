@@ -1,13 +1,14 @@
-﻿using DiningHall.Helpers;
+﻿using System.Collections.Concurrent;
+using DiningHall.Helpers;
 using DiningHall.Models;
 
 namespace DiningHall.Repositories.FoodRepository;
 
 public class FoodRepository : IFoodRepository
 {
-    private readonly IList<Food> _foods = new List<Food>();
+    private readonly ConcurrentBag<Food> _foods = new ConcurrentBag<Food>();
     
-    public IList<Food> GenerateFood()
+    public ConcurrentBag<Food> GenerateFood()
     {
         _foods.Add(new Food
         {

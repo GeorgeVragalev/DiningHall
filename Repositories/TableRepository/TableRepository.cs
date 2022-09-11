@@ -1,12 +1,13 @@
-﻿using DiningHall.Models;
+﻿using System.Collections.Concurrent;
+using DiningHall.Models;
 
 namespace DiningHall.Repositories.TableRepository;
 
 public class TableRepository : ITableRepository
 {
-    private readonly IList<Table> _tables =  new List<Table>();
+    private readonly ConcurrentBag<Table> _tables =  new();
 
-    public IList<Table> GenerateTables()
+    public ConcurrentBag<Table> GenerateTables()
     {
         var maxTables = Settings.Settings.Tables;
         for (var id = 1; id <= maxTables; id++)

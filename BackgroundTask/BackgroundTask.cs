@@ -20,18 +20,17 @@ public class BackgroundTask : BackgroundService
         _timer?.Dispose();
     }
 
-    protected override Task ExecuteAsync(CancellationToken stoppingToken)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        // while (!stoppingToken.IsCancellationRequested)
-        // {
-            using (var scope = _serviceScopeFactory.CreateScope())
+        using (var scope = _serviceScopeFactory.CreateScope())
+        {
+            while (!stoppingToken.IsCancellationRequested)
             {
                 var scoped = scope.ServiceProvider.GetRequiredService<IDiningHall>();
-                // _timer = new Timer(scoped.RunRestaurant(), TimeSpan.FromMinutes(1), TimeSpan.MaxValue);
-                scoped.RunRestaurant();
+                scoped.RunRestaurant(stoppingToken);
+                await Task.Delay(500);
             }
-        // } 
-        return Task.CompletedTask;
+        }
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)

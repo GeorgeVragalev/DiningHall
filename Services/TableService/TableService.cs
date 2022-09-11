@@ -1,4 +1,5 @@
-﻿using DiningHall.Models;
+﻿using System.Collections.Concurrent;
+using DiningHall.Models;
 using DiningHall.Repositories.TableRepository;
 
 namespace DiningHall.Services.TableService;
@@ -12,7 +13,7 @@ public class TableService : ITableService
         _tableRepository = tableRepository;
     }
 
-    public IList<Table> GenerateTables()
+    public ConcurrentBag<Table> GenerateTables()
     {
         return _tableRepository.GenerateTables();
     }

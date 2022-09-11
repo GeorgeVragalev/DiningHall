@@ -4,6 +4,6 @@ namespace DiningHall.Services.OrderService;
 
 public interface IOrderService
 {
-    public Order TakeOrder(int tableId, int waiterId);
     public void SendOrder(Order order);
+    public Order GenerateOrder(int table, int waiter);
 }
