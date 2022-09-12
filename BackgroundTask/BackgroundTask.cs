@@ -22,14 +22,11 @@ public class BackgroundTask : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        await Task.Delay(5000);
         using (var scope = _serviceScopeFactory.CreateScope())
         {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                var scoped = scope.ServiceProvider.GetRequiredService<IDiningHall>();
-                scoped.RunRestaurant(stoppingToken);
-                await Task.Delay(500);
-            }
+            var scoped = scope.ServiceProvider.GetRequiredService<IDiningHall>();
+            scoped.RunRestaurant(stoppingToken);
         }
     }
 

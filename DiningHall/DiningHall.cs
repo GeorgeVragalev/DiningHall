@@ -18,7 +18,6 @@ public class DiningHall : IDiningHall
     public ConcurrentBag<Table> Tables;
     public ConcurrentBag<Waiter> Waiters;
     public ConcurrentBag<Food> Menu;
-    private int IsReady = 0;
 
     public DiningHall(IFoodRepository foodRepository, IOrderService orderService, ITableService tableService,
         IWaiterService waiterService)
@@ -38,23 +37,21 @@ public class DiningHall : IDiningHall
 
     public void RunRestaurant(CancellationToken cancellationToken)
     {
-        if (!CheckIfReady()) return;
-
         InitializeDiningHall();
 
         while (!cancellationToken.IsCancellationRequested)
         {
             Thread.Sleep(5000);
-
+        
             var freeTableId = _tableService.GetFreeTableId();
             var waiter = _waiterService.GetAvailableWaiter();
             if (freeTableId == 0 && waiter == null)
             {
                 continue;
             }
-
+        
             var order = _waiterService.TakeOrder(freeTableId, waiter.Id);
-
+        
             _orderService.SendOrder(order);
         }
     }
@@ -64,15 +61,5 @@ public class DiningHall : IDiningHall
         var waiter = _waiterService.GetWaiterById(finishedOrder.WaiterId);
         // var table = _tableService
         _waiterService.ServeOrder(finishedOrder, waiter);
-    }
-
-    private bool CheckIfReady()
-    {
-        if (!GetReady.IsReady(IsReady))
-        {
-            IsReady++;
-            return false;
-        }
-        return true;
     }
 }
