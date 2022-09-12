@@ -21,17 +21,29 @@ public class TableRepository : ITableRepository
         return _tables;
     }
     
-    public Table GetFreeTable()
+    public async Task<Table> GetFreeTable()
     {
         foreach (var table in _tables)
         {
             if (table.Status == Status.Available)
             {
-                table.Status = Status.Waiting;
-                return table;
+                return await Task.FromResult(table);
             }
         }
 
-        return null;
+        return null!;
+    }
+
+    public async Task<Table> GetTableById(int id)
+    {
+        foreach (var table in _tables)
+        {
+            if (table.Id == id)
+            {
+                return await Task.FromResult(table);
+            }
+        }
+
+        return null!;
     }
 }

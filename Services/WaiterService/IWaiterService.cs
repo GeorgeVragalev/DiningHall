@@ -5,9 +5,9 @@ namespace DiningHall.Services.WaiterService;
 
 public interface IWaiterService
 {
-    public Waiter GetAvailableWaiter();
+    public Task<Waiter> GetAvailableWaiter();
     public ConcurrentBag<Waiter> GenerateWaiters();
-    public Waiter GetWaiterById(int id);
-    public Order TakeOrder(int tableId, int waiterId);
-    public void ServeOrder(FinishedOrder order, Waiter waiter);
+    public Task<Waiter> GetWaiterById(int id);
+    public Task<Order> TakeOrder(Table table, Waiter waiter);
+    public Task<int> ServeOrder(FinishedOrder order, Waiter waiter);
 }

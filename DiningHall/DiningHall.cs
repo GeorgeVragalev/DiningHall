@@ -1,4 +1,5 @@
 ﻿using System.Collections.Concurrent;
+using System.Diagnostics;
 using DiningHall.Helpers;
 using DiningHall.Models;
 using DiningHall.Repositories.FoodRepository;
@@ -35,31 +36,40 @@ public class DiningHall : IDiningHall
         Menu = _foodRepository.GenerateFood();
     }
 
-    public void RunRestaurant(CancellationToken cancellationToken)
+    public async void RunRestaurant(CancellationToken cancellationToken)
     {
         InitializeDiningHall();
 
         while (!cancellationToken.IsCancellationRequested)
         {
-            Thread.Sleep(5000);
-        
-            var freeTableId = _tableService.GetFreeTableId();
-            var waiter = _waiterService.GetAvailableWaiter();
-            if (freeTableId == 0 && waiter == null)
+            var freeTable = await _tableService.GetFreeTable();
+            var waiter = await _waiterService.GetAvailableWaiter();
+            if (freeTable != null && waiter != null)
             {
-                continue;
+                //change status of waiter and table here
+                freeTable.Status = Status.Waiting;
+                waiter.IsBusy = true;
+                var order = await _waiterService.TakeOrder(freeTable, waiter);
+                waiter.ActiveOrdersIds.Add(order.Id);
+        
+                await _orderService.SendOrder(order);
+                
+                //free up waiter after sending request to kitchen
+                waiter.IsBusy = false;
             }
-        
-            var order = _waiterService.TakeOrder(freeTableId, waiter.Id);
-        
-            _orderService.SendOrder(order);
+            
+            //if there are no free tables or waiters, wait and go to next iteration
+            Thread.Sleep(2000);
         }
     }
 
     public async void ServeOrder(FinishedOrder finishedOrder)
     {
-        var waiter = _waiterService.GetWaiterById(finishedOrder.WaiterId);
+        var waiter = await _waiterService.GetWaiterById(finishedOrder.WaiterId);
+        var table = await _tableService.GetTableById(finishedOrder.TableId);
+        waiter.IsBusy = true;
         // var table = _tableService
         _waiterService.ServeOrder(finishedOrder, waiter);
+        table.Status = Status.ReceivedOrder;
     }
 }

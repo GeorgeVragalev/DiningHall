@@ -16,9 +16,9 @@ public class WaiterService : IWaiterService
         _orderService = orderService;
     }
 
-    public Waiter GetAvailableWaiter()
+    public async Task<Waiter> GetAvailableWaiter()
     {
-        var waiter = _waiterRepository.GetAvailableWaiter();
+        var waiter = await _waiterRepository.GetAvailableWaiter();
         
         return waiter;
     }
@@ -28,18 +28,20 @@ public class WaiterService : IWaiterService
         return _waiterRepository.GenerateWaiters();
     }
 
-    public Waiter GetWaiterById(int id)
+    public async Task<Waiter> GetWaiterById(int id)
     {
-        return _waiterRepository.GetWaiterById(id);
+        return await _waiterRepository.GetWaiterById(id);
     }
 
-    public Order TakeOrder(int tableId, int waiterId)
+    public async Task<Order> TakeOrder(Table table, Waiter waiter)
     {
-        return _orderService.GenerateOrder(tableId, waiterId);
+        return await _orderService.GenerateOrder(table, waiter);
     }
 
-    public void ServeOrder(FinishedOrder order, Waiter waiter)
+    public Task<int> ServeOrder(FinishedOrder order, Waiter waiter)
     {
-        
+        int waitingTime = order.MaxWait - order.CookingTime;
+        waiter.CompletedOrderIds.Add(order.Id);
+        return Task.FromResult(waitingTime);
     }
 }

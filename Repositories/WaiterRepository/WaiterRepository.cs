@@ -16,14 +16,16 @@ public class WaiterRepository : IWaiterRepository
             {
                 Id = id,
                 Name = $"Waiter {id}",
-                IsBusy = false
+                IsBusy = false,
+                ActiveOrdersIds = new List<int>(),
+                CompletedOrderIds = new List<int>()
             });
         }
 
         return _waiters;
     }
 
-    public Waiter GetWaiterById(int id)
+    public async Task<Waiter> GetWaiterById(int id)
     {
         var waiterResult = new Waiter();
         foreach (var waiter in _waiters)
@@ -35,7 +37,7 @@ public class WaiterRepository : IWaiterRepository
             }
         }
 
-        return waiterResult;
+        return await Task.FromResult(waiterResult);
     }
 
     public ConcurrentBag<Waiter> GetAll()
@@ -43,16 +45,16 @@ public class WaiterRepository : IWaiterRepository
         return _waiters;
     }
 
-    public Waiter GetAvailableWaiter()
+    public async Task<Waiter> GetAvailableWaiter()
     {
         foreach (var waiter in _waiters)
         {
             if (!waiter.IsBusy)
             {
-                return waiter;
+                return await Task.FromResult(waiter);
             }
         }
         
-        return null;
+        return null!;
     }
 }

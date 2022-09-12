@@ -18,14 +18,25 @@ public class TableService : ITableService
         return _tableRepository.GenerateTables();
     }
 
-    public int GetFreeTableId()
+    public async Task<Table> GetFreeTable()
     {
-        var table = _tableRepository.GetFreeTable();
+        var table = await _tableRepository.GetFreeTable();
 
         if (table!=null)
         {
-            return table.Id;
+            return await Task.FromResult(table);
         }
-        return 0;
+        return null!;
+    }
+    
+    public async Task<Table> GetTableById(int id)
+    {
+        var table = await _tableRepository.GetTableById(id);
+
+        if (table!=null)
+        {
+            return await Task.FromResult(table);
+        }
+        return null!;
     }
 }

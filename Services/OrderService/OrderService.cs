@@ -18,7 +18,7 @@ public class OrderService : IOrderService
     }
 
 
-    public async void SendOrder(Order order)
+    public async Task SendOrder(Order order)
     {
         try
         {
@@ -38,18 +38,18 @@ public class OrderService : IOrderService
         }
     }
 
-    public Order GenerateOrder(int table, int waiter)
+    public async Task<Order> GenerateOrder(Table table, Waiter waiter)
     {
         var foodList = _foodRepository.GenerateOrderFood();
-        return new Order
+        return await Task.FromResult(new Order
         {
             Id = IdGenerator.GenerateId(),
             Priority = RandomGenerator.NumberGenerator(3),
             PickUpTime = DateTime.UtcNow,
             Foods = foodList,
-            TableId = table,
-            WaiterId = waiter,
+            TableId = table.Id,
+            WaiterId = waiter.Id,
             MaxWait = foodList.CalculateMaxWaitingTime(_foodRepository)
-        };
+        });
     }
 }

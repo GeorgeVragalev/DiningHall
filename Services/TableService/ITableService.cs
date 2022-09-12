@@ -5,6 +5,7 @@ namespace DiningHall.Services.TableService;
 
 public interface ITableService
 {
-    public int GetFreeTableId();
+    public Task<Table> GetFreeTable();
     public ConcurrentBag<Table> GenerateTables();
+    public Task<Table> GetTableById(int id);
 }

@@ -4,6 +4,6 @@ namespace DiningHall.Services.OrderService;
 
 public interface IOrderService
 {
-    public void SendOrder(Order order);
-    public Order GenerateOrder(int table, int waiter);
+    public Task SendOrder(Order order);
+    public Task<Order> GenerateOrder(Table table, Waiter waiter);
 }
