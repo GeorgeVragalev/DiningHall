@@ -93,21 +93,8 @@ public class FoodRepository : IFoodRepository
         return _foods;
     }
 
-    public Food GetFoodById(int id)
+    public async Task<Food> GetFoodById(int id)
     {
-        return _foods.FirstOrDefault(food => food.Id.Equals(id))!;
-    }
-
-    public IList<int> GenerateOrderFood()
-    {
-        var size = RandomGenerator.NumberGenerator(10);
-        var listOfFood = new List<int>();
-
-        for (var id = 0; id < size; id++)
-        {
-            listOfFood.Add(RandomGenerator.NumberGenerator(13));
-        }
-
-        return listOfFood;
+        return await Task.FromResult(_foods.FirstOrDefault(food => food.Id.Equals(id))!);
     }
 }

@@ -2,22 +2,22 @@
 using DiningHall.Helpers;
 using DiningHall.Models;
 using DiningHall.Repositories.FoodRepository;
+using DiningHall.Services.FoodService;
 using Newtonsoft.Json;
 
 namespace DiningHall.Services.OrderService;
 
 public class OrderService : IOrderService
 {
-    private readonly IFoodRepository _foodRepository;
+    private readonly IFoodService _foodService;
     private readonly ILogger<OrderService> _logger;
 
-    public OrderService(IFoodRepository foodRepository, ILogger<OrderService> logger)
+    public OrderService(ILogger<OrderService> logger, IFoodService foodService)
     {
-        _foodRepository = foodRepository;
         _logger = logger;
+        _foodService = foodService;
     }
-
-
+    
     public async Task SendOrder(Order order)
     {
         try
@@ -40,7 +40,7 @@ public class OrderService : IOrderService
 
     public async Task<Order> GenerateOrder(Table table, Waiter waiter)
     {
-        var foodList = _foodRepository.GenerateOrderFood();
+        var foodList = await _foodService.GenerateOrderFood();
         return await Task.FromResult(new Order
         {
             Id = IdGenerator.GenerateId(),
@@ -49,7 +49,7 @@ public class OrderService : IOrderService
             Foods = foodList,
             TableId = table.Id,
             WaiterId = waiter.Id,
-            MaxWait = foodList.CalculateMaxWaitingTime(_foodRepository)
+            MaxWait = foodList.CalculateMaxWaitingTime(_foodService)
         });
     }
 }

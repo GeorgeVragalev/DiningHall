@@ -6,6 +6,7 @@ using DiningHall.Repositories.Generic;
 using DiningHall.Repositories.TableRepository;
 using DiningHall.Repositories.WaiterRepository;
 using DiningHall.Services;
+using DiningHall.Services.FoodService;
 using DiningHall.Services.OrderService;
 using DiningHall.Services.TableService;
 using DiningHall.Services.WaiterService;
@@ -28,6 +29,7 @@ public class Startup
         services.AddSingleton<ITableService, TableService>();
         services.AddSingleton<IWaiterService, WaiterService>();
         services.AddSingleton<IOrderService, OrderService>();
+        services.AddSingleton<IFoodService, FoodService>();
         services.AddSingleton<IDiningHall, DiningHall.DiningHall>();
         services.AddHostedService<BackgroundTask.BackgroundTask>();
     }

@@ -3,6 +3,7 @@ using System.Diagnostics;
 using DiningHall.Helpers;
 using DiningHall.Models;
 using DiningHall.Repositories.FoodRepository;
+using DiningHall.Services.FoodService;
 using DiningHall.Services.OrderService;
 using DiningHall.Services.TableService;
 using DiningHall.Services.WaiterService;
@@ -12,9 +13,9 @@ namespace DiningHall.DiningHall;
 public class DiningHall : IDiningHall
 {
     private readonly IWaiterService _waiterService;
-    private readonly IFoodRepository _foodRepository;
     private readonly ITableService _tableService;
     private readonly IOrderService _orderService;
+    private readonly IFoodService _foodService;
     private readonly ILogger<DiningHall> _logger;
 
     private decimal _rating = 5;
@@ -23,21 +24,21 @@ public class DiningHall : IDiningHall
     public ConcurrentBag<Waiter> Waiters;
     public ConcurrentBag<Food> Menu;
 
-    public DiningHall(IFoodRepository foodRepository, IOrderService orderService, ITableService tableService,
-        IWaiterService waiterService, ILogger<DiningHall> logger)
+    public DiningHall(IOrderService orderService, ITableService tableService,
+        IWaiterService waiterService, ILogger<DiningHall> logger, IFoodService foodService)
     {
-        _foodRepository = foodRepository;
         _orderService = orderService;
         _tableService = tableService;
         _waiterService = waiterService;
         _logger = logger;
+        _foodService = foodService;
     }
 
     private void InitializeDiningHall()
     {
         Waiters = _waiterService.GenerateWaiters();
         Tables = _tableService.GenerateTables();
-        Menu = _foodRepository.GenerateFood();
+        Menu = _foodService.GenerateFood();
     }
 
     public async void RunRestaurant(CancellationToken cancellationToken)
@@ -62,9 +63,15 @@ public class DiningHall : IDiningHall
                 waiter.IsBusy = false;
             }
             //if there are no free tables or waiters, wait and go to next iteration
+            //todo random thread sleep
             Thread.Sleep(2000);
         }
     }
+    
+    //constant/variable sec/min/mlsec
+    
+    //unixtimestamp 1 sec = 1 unix
+    //time units * 0.1 = ms  , *1 = sec , *60 = min
 
     public async void ServeOrder(FinishedOrder finishedOrder)
     {
