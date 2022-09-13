@@ -42,3 +42,7 @@ obj/rider.project.restore.info
 obj/staticwebassets.pack.sentinel
 bin/Debug/net6.0/Settings/appsettings.Development.json
 bin/Debug/net6.0/Settings/appsettings.json
+bin/Debug/net6.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+bin/Debug/net6.0/Microsoft.EntityFrameworkCore.dll
+bin/Debug/net6.0/Microsoft.Extensions.Caching.Memory.dll
+bin/Debug/net6.0/Newtonsoft.Json.dll

@@ -2,6 +2,7 @@
 using DiningHall.DiningHall;
 using DiningHall.Models;
 using DiningHall.Repositories.FoodRepository;
+using DiningHall.Repositories.Generic;
 using DiningHall.Repositories.TableRepository;
 using DiningHall.Repositories.WaiterRepository;
 using DiningHall.Services;
@@ -21,13 +22,13 @@ public class Startup
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        services.AddScoped<IWaiterRepository, WaiterRepository>();
-        services.AddScoped<ITableRepository, TableRepository>();
+        services.AddSingleton<IWaiterRepository, WaiterRepository>();
+        services.AddSingleton<ITableRepository, TableRepository>();
         services.AddSingleton<IFoodRepository, FoodRepository>();
-        services.AddScoped<ITableService, TableService>();
-        services.AddScoped<IWaiterService, WaiterService>();
-        services.AddScoped<IOrderService, OrderService>();
-        services.AddScoped<IDiningHall, DiningHall.DiningHall>();
+        services.AddSingleton<ITableService, TableService>();
+        services.AddSingleton<IWaiterService, WaiterService>();
+        services.AddSingleton<IOrderService, OrderService>();
+        services.AddSingleton<IDiningHall, DiningHall.DiningHall>();
         services.AddHostedService<BackgroundTask.BackgroundTask>();
     }
 

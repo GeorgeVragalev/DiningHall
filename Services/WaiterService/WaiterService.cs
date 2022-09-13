@@ -30,7 +30,7 @@ public class WaiterService : IWaiterService
 
     public async Task<Waiter> GetWaiterById(int id)
     {
-        return await _waiterRepository.GetWaiterById(id);
+        return await _waiterRepository.GetById(id);
     }
 
     public async Task<Order> TakeOrder(Table table, Waiter waiter)
@@ -38,10 +38,11 @@ public class WaiterService : IWaiterService
         return await _orderService.GenerateOrder(table, waiter);
     }
 
-    public Task<int> ServeOrder(FinishedOrder order, Waiter waiter)
+    public async Task<int> FinishOrder(FinishedOrder order, Waiter waiter)
     {
         int waitingTime = order.MaxWait - order.CookingTime;
         waiter.CompletedOrderIds.Add(order.Id);
-        return Task.FromResult(waitingTime);
+        waiter.ActiveOrdersIds.Remove(order.Id);
+        return await Task.FromResult(waitingTime);
     }
 }

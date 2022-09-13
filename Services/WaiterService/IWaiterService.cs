@@ -9,5 +9,5 @@ public interface IWaiterService
     public ConcurrentBag<Waiter> GenerateWaiters();
     public Task<Waiter> GetWaiterById(int id);
     public Task<Order> TakeOrder(Table table, Waiter waiter);
-    public Task<int> ServeOrder(FinishedOrder order, Waiter waiter);
+    public Task<int> FinishOrder(FinishedOrder order, Waiter waiter);
 }

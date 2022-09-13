@@ -2,7 +2,7 @@
 
 namespace DiningHall.Helpers;
 
-public static class OrderMappingExtension
+public static class OrderExtension
 {
     public static FinishedOrder MapFinishedOrder(this Order order)
     {
@@ -18,5 +18,21 @@ public static class OrderMappingExtension
             WaiterId = order.WaiterId,
         };
         return finishedOrder;
-    } 
+    }
+
+    public static decimal GetOrderRating(this FinishedOrder order)
+    {
+        var waitingTime = (DateTime.Now - order.PickUpTime).Seconds;
+
+        var timeElapsed = order.MaxWait - waitingTime;
+        switch (timeElapsed)
+        {
+            case > 5:
+                return 5;
+            case <5:
+                return 4;
+            default:
+                return 1;
+        }
+    }
 }

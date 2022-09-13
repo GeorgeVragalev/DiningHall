@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using DiningHall.Models;
+using DiningHall.Repositories.Generic;
 
 namespace DiningHall.Repositories.WaiterRepository;
 
@@ -25,21 +26,6 @@ public class WaiterRepository : IWaiterRepository
         return _waiters;
     }
 
-    public async Task<Waiter> GetWaiterById(int id)
-    {
-        var waiterResult = new Waiter();
-        foreach (var waiter in _waiters)
-        {
-            if (waiter.Id == id)
-            {
-                waiterResult = waiter;
-                break;
-            }
-        }
-
-        return await Task.FromResult(waiterResult);
-    }
-
     public ConcurrentBag<Waiter> GetAll()
     {
         return _waiters;
@@ -56,5 +42,21 @@ public class WaiterRepository : IWaiterRepository
         }
         
         return null!;
+    }
+
+    public async Task<Waiter> GetById(int id)
+    {
+        var waiterResult = new Waiter();
+        foreach (var waiter in _waiters)
+        {
+            if (waiter.Id == id)
+            {
+                waiterResult = waiter;
+                break;
+            }
+        }
+
+        return await Task.FromResult(waiterResult);
+        
     }
 }
