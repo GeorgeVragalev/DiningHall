@@ -86,7 +86,7 @@ public class DiningHall : IDiningHall
 
             var waitingTime = finishedOrder.GetOrderRating();
             _rating = (_rating + waitingTime) / 2;
-            _logger.LogInformation("Current rating: " + _rating);
+            Console.WriteLine("Current rating: " + _rating);
             waiter.IsBusy = false;
 
             Thread.Sleep(2000);
@@ -94,7 +94,7 @@ public class DiningHall : IDiningHall
         }
         else
         {
-            _logger.LogError("Failed to serve order with id: " + finishedOrder.Id);
+            Console.WriteLine("Failed to serve order with id: " + finishedOrder.Id);
         }
     }
 }

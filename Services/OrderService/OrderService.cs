@@ -29,7 +29,7 @@ public class OrderService : IOrderService
             using var client = new HttpClient();
 
             var response = await client.PostAsync(url, data);
-            _logger.LogInformation("Order "+ order.Id+" sent to kitchen");
+            Console.WriteLine("Order "+ order.Id+" sent to kitchen");
             var result = await response.Content.ReadAsStringAsync();
         }
         catch (Exception e)

@@ -22,7 +22,7 @@ public class OrderController : ControllerBase
     {
         //Process order
         //Call Dininghall function to process the Order and serve it back
-        _logger.LogInformation("Order "+ order.Id+" received");
+        Console.WriteLine("Order "+ order.Id+" received");
         _diningHall.ServeOrder(order);
 
         // return new FinishedOrder();
