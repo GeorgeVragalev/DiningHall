@@ -37,8 +37,7 @@ public class OrderService : IOrderService
             Console.WriteLine("Failed to send order with id:" + order.Id);
         }
     }
-
-    public async Task<Order> GenerateOrder(Table table, Waiter waiter)
+public async Task<Order> GenerateOrder(Table table, Waiter waiter)
     {
         var foodList = await _foodService.GenerateOrderFood();
         return await Task.FromResult(new Order
@@ -52,4 +51,5 @@ public class OrderService : IOrderService
             MaxWait = foodList.CalculateMaxWaitingTime(_foodService)
         });
     }
+    
 }

@@ -1,6 +1,5 @@
 ﻿using DiningHall.DiningHall;
 using DiningHall.Models;
-using DiningHall.Repositories.FoodRepository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiningHall.Controllers;
@@ -10,13 +9,11 @@ namespace DiningHall.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly IDiningHall _diningHall;
-    private readonly IFoodRepository _foodRepository;
     private readonly ILogger<OrderController> _logger;
 
-    public OrderController(IDiningHall diningHall, IFoodRepository foodRepository, ILogger<OrderController> logger)
+    public OrderController(IDiningHall diningHall, ILogger<OrderController> logger)
     {
         _diningHall = diningHall;
-        _foodRepository = foodRepository;
         _logger = logger;
     }
 
@@ -30,5 +27,10 @@ public class OrderController : ControllerBase
 
         // return new FinishedOrder();
     }
-
+    
+    [HttpGet]
+    public ContentResult Get()
+    {
+        return Content("Hi");
+    }
 }

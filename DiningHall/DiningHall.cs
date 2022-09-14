@@ -77,16 +77,24 @@ public class DiningHall : IDiningHall
     {
         var waiter = await _waiterService.GetWaiterById(finishedOrder.WaiterId);
         var table = await _tableService.GetTableById(finishedOrder.TableId);
-        waiter.IsBusy = true;
-        table.Status = Status.ReceivedOrder;
-        await _waiterService.FinishOrder(finishedOrder, waiter);
-        
-        var waitingTime = finishedOrder.GetOrderRating();
-        _rating = (_rating + waitingTime) / 2;
-        _logger.LogInformation("Current rating: "+ _rating);
-        waiter.IsBusy = false;
-        
-        Thread.Sleep(2000);
-        table.Status = Status.Available;
+        if (table != null && waiter != null)
+        {
+            waiter.IsBusy = true;
+            table.Status = Status.ReceivedOrder;
+            
+            await _waiterService.FinishOrder(finishedOrder, waiter);
+
+            var waitingTime = finishedOrder.GetOrderRating();
+            _rating = (_rating + waitingTime) / 2;
+            _logger.LogInformation("Current rating: " + _rating);
+            waiter.IsBusy = false;
+
+            Thread.Sleep(2000);
+            table.Status = Status.Available;
+        }
+        else
+        {
+            _logger.LogError("Failed to serve order with id: " + finishedOrder.Id);
+        }
     }
 }
