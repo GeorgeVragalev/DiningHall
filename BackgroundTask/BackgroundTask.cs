@@ -4,14 +4,12 @@ namespace DiningHall.BackgroundTask;
 
 public class BackgroundTask : BackgroundService
 {
-    private readonly ILogger<BackgroundTask> logger;
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly Timer _timer;
     private int number;
 
-    public BackgroundTask(ILogger<BackgroundTask> logger, IServiceScopeFactory serviceScopeFactory)
+    public BackgroundTask(IServiceScopeFactory serviceScopeFactory)
     {
-        this.logger = logger;
         _serviceScopeFactory = serviceScopeFactory;
     }
 

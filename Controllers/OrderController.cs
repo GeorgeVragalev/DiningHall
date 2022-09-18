@@ -9,12 +9,10 @@ namespace DiningHall.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly IDiningHall _diningHall;
-    private readonly ILogger<OrderController> _logger;
 
-    public OrderController(IDiningHall diningHall, ILogger<OrderController> logger)
+    public OrderController(IDiningHall diningHall)
     {
         _diningHall = diningHall;
-        _logger = logger;
     }
 
     [HttpPost]

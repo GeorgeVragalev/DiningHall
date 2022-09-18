@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using DiningHall.Helpers;
 using DiningHall.Models;
-using DiningHall.Repositories.FoodRepository;
 using DiningHall.Services.FoodService;
 using Newtonsoft.Json;
 
@@ -10,11 +9,9 @@ namespace DiningHall.Services.OrderService;
 public class OrderService : IOrderService
 {
     private readonly IFoodService _foodService;
-    private readonly ILogger<OrderService> _logger;
 
-    public OrderService(ILogger<OrderService> logger, IFoodService foodService)
+    public OrderService(IFoodService foodService)
     {
-        _logger = logger;
         _foodService = foodService;
     }
     
@@ -28,19 +25,18 @@ public class OrderService : IOrderService
             var url = Settings.Settings.KitchenUrl;
             using var client = new HttpClient();
 
-            var response = await client.PostAsync(url, data);
-            Console.WriteLine("Order "+ order.Id+" sent to kitchen");
-            var result = await response.Content.ReadAsStringAsync();
+            await client.PostAsync(url, data);
+            PrintConsole.Write("Order "+ order.Id+" sent to kitchen", ConsoleColor.Green);
         }
         catch (Exception e)
         {
-            Console.WriteLine("Failed to send order with id:" + order.Id);
+            PrintConsole.Write(Thread.CurrentThread.Name + " Failed to send order id: "+ order.Id, ConsoleColor.DarkRed);
         }
     }
 public async Task<Order> GenerateOrder(Table table, Waiter waiter)
     {
         var foodList = await _foodService.GenerateOrderFood();
-        return await Task.FromResult(new Order
+        var order = new Order
         {
             Id = IdGenerator.GenerateId(),
             Priority = RandomGenerator.NumberGenerator(3),
@@ -49,7 +45,10 @@ public async Task<Order> GenerateOrder(Table table, Waiter waiter)
             TableId = table.Id,
             WaiterId = waiter.Id,
             MaxWait = foodList.CalculateMaxWaitingTime(_foodService)
-        });
+        };
+        PrintConsole.Write("Generated order: "+ order.Id, ConsoleColor.Cyan);
+
+        return await Task.FromResult(order);
     }
     
 }
