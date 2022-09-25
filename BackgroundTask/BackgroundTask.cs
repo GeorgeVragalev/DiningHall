@@ -24,7 +24,7 @@ public class BackgroundTask : BackgroundService
         using (var scope = _serviceScopeFactory.CreateScope())
         {
             var scoped = scope.ServiceProvider.GetRequiredService<IDiningHall>();
-            scoped.RunRestaurant(stoppingToken);
+            scoped.ExecuteCode(stoppingToken);
         }
     }
 

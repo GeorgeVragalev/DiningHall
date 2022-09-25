@@ -16,7 +16,7 @@ public class FoodService : IFoodService
 
     public  ConcurrentBag<Food> GenerateFood()
     {
-        return _foodRepository.GenerateFood();
+        return _foodRepository.GenerateMenu();
     }
 
     public Task<Food> GetFoodById(int id)

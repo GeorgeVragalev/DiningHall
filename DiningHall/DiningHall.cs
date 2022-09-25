@@ -41,26 +41,21 @@ public class DiningHall : IDiningHall
         Menu = _foodService.GenerateFood();
     }
 
-    public async void RunRestaurant(CancellationToken cancellationToken)
+    public void ExecuteCode(CancellationToken cancellationToken)
     {
         InitializeDiningHall();
         
         //Initialize threads to continue with running the method
-        ExecuteCode(cancellationToken);
+        RunThreads(cancellationToken);
     }
 
-    public void ExecuteCode(CancellationToken cancellationToken)
+    private async void RunThreads(CancellationToken cancellationToken)
     {
-        Thread t1 = new Thread(() => RunThreads(cancellationToken));
-        Thread t2 = new Thread(() => RunThreads(cancellationToken));
-        Thread t3 = new Thread(() => RunThreads(cancellationToken));
-        Thread t4 = new Thread(() => RunThreads(cancellationToken));
-        Thread t5 = new Thread(() => RunThreads(cancellationToken));
-        t1.Name = "thread 1";
-        t2.Name = "thread 2";
-        t3.Name = "thread 3";
-        t4.Name = "thread 4";
-        t5.Name = "thread 5";
+        Thread t1 = new Thread(() => RunRestaurant(cancellationToken));
+        Thread t2 = new Thread(() => RunRestaurant(cancellationToken));
+        Thread t3 = new Thread(() => RunRestaurant(cancellationToken));
+        Thread t4 = new Thread(() => RunRestaurant(cancellationToken));
+        Thread t5 = new Thread(() => RunRestaurant(cancellationToken));
         t1.Start();
         t2.Start();
         t3.Start();
@@ -68,7 +63,7 @@ public class DiningHall : IDiningHall
         t5.Start();
     }
 
-    private async void RunThreads(CancellationToken cancellationToken)
+    public async void RunRestaurant(CancellationToken cancellationToken)
     {
         while (!cancellationToken.IsCancellationRequested)
         {

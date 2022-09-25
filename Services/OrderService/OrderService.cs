@@ -39,7 +39,7 @@ public async Task<Order> GenerateOrder(Table table, Waiter waiter)
         var order = new Order
         {
             Id = IdGenerator.GenerateId(),
-            Priority = RandomGenerator.NumberGenerator(3),
+            Priority = RandomGenerator.NumberGenerator(5),
             PickUpTime = DateTime.UtcNow,
             Foods = foodList,
             TableId = table.Id,
