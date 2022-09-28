@@ -94,7 +94,6 @@ public class DiningHall : IDiningHall
                 _mutex.ReleaseMutex();
             }
             //if there are no free tables or waiters, wait and go to next iteration
-            //todo random thread sleep
             Thread.Sleep(5000);
         }
     }
@@ -123,7 +122,7 @@ public class DiningHall : IDiningHall
             Console.WriteLine("Current rating: " + _rating);
             waiter.IsBusy = false;
 
-            Thread.Sleep(2000);
+            Thread.Sleep(2 * Settings.Settings.TimeUnit);
             table.Status = Status.Available;
         }
         else

@@ -10,8 +10,8 @@ public static class MaxWaitingTimeHelper
         var maxWaitingTime = 0;
         foreach (var foodId in foodList)
         {
-            var food = foodService.GetFoodById(foodId).Result;
-            maxWaitingTime += food.PreparationTime;
+            var food = 1; /*foodService.GetFoodById(foodId).Result;*/
+            maxWaitingTime += 20;
         }
 
         return (int) (maxWaitingTime * 1.3);
