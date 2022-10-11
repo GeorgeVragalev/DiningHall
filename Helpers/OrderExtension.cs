@@ -4,6 +4,7 @@ namespace DiningHall.Helpers;
 
 public static class OrderExtension
 {
+    private static IList<int> ratings = new List<int>();
     public static FinishedOrder MapFinishedOrder(this Order order)
     {
         var finishedOrder = new FinishedOrder()
@@ -20,19 +21,44 @@ public static class OrderExtension
         return finishedOrder;
     }
 
-    public static decimal GetOrderRating(this FinishedOrder order)
+    public static double GetOrderRating(this FinishedOrder order)
     {
-        var waitingTime = (DateTime.Now - order.PickUpTime).Seconds;
+        var waitingTime = (DateTime.Now - order.PickUpTime);
+        var timeElapsed = 0;
 
-        var timeElapsed = order.MaxWait - waitingTime;
-        switch (timeElapsed)
+        switch (Settings.Settings.TimeUnit)
         {
-            case > 5:
-                return 5;
-            case <5:
-                return 4;
-            default:
-                return 1;
+            case 100:
+                timeElapsed = waitingTime.Seconds;
+                break;
+            case 1000:
+                timeElapsed = waitingTime.Seconds;
+                break;
+            case 60000:
+                timeElapsed = waitingTime.Minutes;
+                break;
         }
+
+        var rating = 1;
+        if (timeElapsed < order.MaxWait)
+        {
+            rating = 5;
+        }
+        else if (timeElapsed < order.MaxWait * 1.1)
+        {
+            rating = 4;
+        }
+        else if (timeElapsed < order.MaxWait * 1.2)
+        {
+            rating = 3;
+        }
+        else if (timeElapsed < order.MaxWait * 1.3)
+        {
+            rating = 2;
+        }
+        ratings.Add(rating);
+        PrintConsole.Write($"Received rating {rating} from orderId {order.Id}", ConsoleColor.DarkGreen);
+
+        return ratings.Average();
     }
 }

@@ -26,7 +26,7 @@ public class OrderService : IOrderService
             using var client = new HttpClient();
 
             await client.PostAsync(url, data);
-            PrintConsole.Write("Order "+ order.Id+" sent to kitchen", ConsoleColor.Green);
+            PrintConsole.Write($"Order {order.Id} with {order.Foods.Count} foods sent to kitchen", ConsoleColor.Green);
         }
         catch (Exception e)
         {

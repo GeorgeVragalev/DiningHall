@@ -19,7 +19,7 @@ public class DiningHall : IDiningHall
     private readonly IFoodService _foodService;
     private static Mutex _mutex = new();
 
-    private decimal _rating = 5;
+    private double _rating = 5;
 
     public ConcurrentBag<Table> Tables;
     public ConcurrentBag<Waiter> Waiters;
@@ -118,8 +118,9 @@ public class DiningHall : IDiningHall
             await _waiterService.FinishOrder(finishedOrder, waiter);
 
             var waitingTime = finishedOrder.GetOrderRating();
-            _rating = (_rating + waitingTime) / 2;
-            Console.WriteLine("Current rating: " + _rating);
+            _rating = waitingTime;
+            PrintConsole.Write($"Current rating: {_rating}", ConsoleColor.Green);
+
             waiter.IsBusy = false;
 
             Thread.Sleep(2 * Settings.Settings.TimeUnit);

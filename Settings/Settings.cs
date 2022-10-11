@@ -6,7 +6,7 @@ public static class Settings
     public static readonly int Waiters = 5;
     // public static readonly string KitchenUrl = "http://host.docker.internal:7091/order"; //docker
     public static readonly string KitchenUrl = "https://localhost:7091/order"; //local
-    public static readonly int TimeUnit = 1000; //seconds = 1000  ms = 100 minutes = 60000 
+    public static readonly int TimeUnit = 100; //seconds = 1000  ms = 100 minutes = 60000 
 }
 /*
 to run docker for dininghall container: 
