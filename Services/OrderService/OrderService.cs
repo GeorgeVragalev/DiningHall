@@ -40,13 +40,13 @@ public async Task<Order> GenerateOrder(Table table, Waiter waiter)
         {
             Id = IdGenerator.GenerateId(),
             Priority = RandomGenerator.NumberGenerator(5),
-            PickUpTime = DateTime.UtcNow,
+            PickUpTime = DateTime.Now,
             Foods = foodList,
             TableId = table.Id,
             WaiterId = waiter.Id,
             MaxWait = foodList.CalculateMaxWaitingTime(_foodService)
         };
-        PrintConsole.Write("Generated order: "+ order.Id, ConsoleColor.Cyan);
+        PrintConsole.Write($"Generated order: {order.Id} waiting time {order.MaxWait}" , ConsoleColor.Cyan);
 
         return await Task.FromResult(order);
     }

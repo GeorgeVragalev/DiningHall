@@ -1,4 +1,5 @@
 ﻿using DiningHall.Models;
+using DiningHall.Services.FoodService;
 
 namespace DiningHall.Helpers;
 
@@ -24,41 +25,69 @@ public static class OrderExtension
     public static double GetOrderRating(this FinishedOrder order)
     {
         var waitingTime = (DateTime.Now - order.PickUpTime);
+
+        var timeElapsed = SetTimeElapsed(waitingTime);
+        var rating = GetRating(timeElapsed, order.MaxWait);
+        
+        ratings.Add(rating);
+        PrintConsole.Write($"Received rating {rating} from orderId {order.Id} {timeElapsed} | {order.MaxWait}", ConsoleColor.DarkGreen);
+
+        return ratings.Average();
+    }
+
+    private static int SetTimeElapsed(TimeSpan time)
+    {
         var timeElapsed = 0;
 
         switch (Settings.Settings.TimeUnit)
         {
             case 1:
-                timeElapsed = waitingTime.Milliseconds;
+                timeElapsed = (int) time.TotalMilliseconds;
                 break;
             case 1000:
-                timeElapsed = waitingTime.Seconds;
+                timeElapsed = (int) time.TotalSeconds;
                 break;
             case 60000:
-                timeElapsed = waitingTime.Minutes;
+                timeElapsed = (int) time.TotalMinutes;
                 break;
         }
+
+        return timeElapsed;
+    }
+    private static int GetRating(int timeElapsed, int maxWait)
+    {
         
         var rating = 1;
-        if (timeElapsed < order.MaxWait)
+
+        if (timeElapsed < maxWait)
         {
             rating = 5;
         }
-        else if (timeElapsed < order.MaxWait * 1.1)
+        else if (timeElapsed < maxWait * 1.1)
         {
             rating = 4;
         }
-        else if (timeElapsed < order.MaxWait * 1.2)
+        else if (timeElapsed < maxWait * 1.2)
         {
             rating = 3;
         }
-        else if (timeElapsed < order.MaxWait * 1.3)
+        else if (timeElapsed < maxWait * 1.3)
         {
             rating = 2;
         }
-        ratings.Add(rating);
-        PrintConsole.Write($"Received rating {rating} from orderId {order.Id} {timeElapsed} | {order.MaxWait}", ConsoleColor.DarkGreen);
 
-        return ratings.Average();
+        return rating;
+    }
+    
+    public static int CalculateMaxWaitingTime(this IEnumerable<int> foodList, IFoodService foodService)
+    {
+        var maxWaitingTime = 0;
+        foreach (var foodId in foodList)
+        {
+            var food = foodService.GetFoodById(foodId).Result;
+            maxWaitingTime += food.PreparationTime;
+        }
+
+        return (int) Math.Ceiling(maxWaitingTime * 1.3);
     }
 }
