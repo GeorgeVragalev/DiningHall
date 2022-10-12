@@ -28,8 +28,8 @@ public static class OrderExtension
 
         switch (Settings.Settings.TimeUnit)
         {
-            case 100:
-                timeElapsed = waitingTime.Seconds;
+            case 1:
+                timeElapsed = waitingTime.Milliseconds;
                 break;
             case 1000:
                 timeElapsed = waitingTime.Seconds;
@@ -38,7 +38,7 @@ public static class OrderExtension
                 timeElapsed = waitingTime.Minutes;
                 break;
         }
-
+        
         var rating = 1;
         if (timeElapsed < order.MaxWait)
         {
@@ -57,7 +57,7 @@ public static class OrderExtension
             rating = 2;
         }
         ratings.Add(rating);
-        PrintConsole.Write($"Received rating {rating} from orderId {order.Id}", ConsoleColor.DarkGreen);
+        PrintConsole.Write($"Received rating {rating} from orderId {order.Id} {timeElapsed} | {order.MaxWait}", ConsoleColor.DarkGreen);
 
         return ratings.Average();
     }
