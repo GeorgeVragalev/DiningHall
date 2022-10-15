@@ -14,7 +14,7 @@ public class OrderService : IOrderService
     {
         _foodService = foodService;
     }
-    
+
     public async Task SendOrder(Order order)
     {
         try
@@ -30,10 +30,12 @@ public class OrderService : IOrderService
         }
         catch (Exception e)
         {
-            PrintConsole.Write(Thread.CurrentThread.Name + " Failed to send order id: "+ order.Id, ConsoleColor.DarkRed);
+            PrintConsole.Write(Thread.CurrentThread.Name + " Failed to send order id: " + order.Id,
+                ConsoleColor.DarkRed);
         }
     }
-public async Task<Order> GenerateOrder(Table table, Waiter waiter)
+
+    public async Task<Order> GenerateOrder(Table table, Waiter waiter)
     {
         var foodList = await _foodService.GenerateOrderFood();
         var order = new Order
@@ -46,9 +48,8 @@ public async Task<Order> GenerateOrder(Table table, Waiter waiter)
             WaiterId = waiter.Id,
             MaxWait = foodList.CalculateMaxWaitingTime(_foodService)
         };
-        PrintConsole.Write($"Generated order: {order.Id} waiting time {order.MaxWait}" , ConsoleColor.Cyan);
+        PrintConsole.Write($"Generated order: {order.Id} waiting time {order.MaxWait}", ConsoleColor.Cyan);
 
         return await Task.FromResult(order);
     }
-    
 }

@@ -44,8 +44,6 @@ public class DiningHall : IDiningHall
     public void ExecuteCode(CancellationToken cancellationToken)
     {
         InitializeDiningHall();
-        
-        //Initialize threads to continue with running the method
         RunThreads(cancellationToken);
     }
 
@@ -77,7 +75,6 @@ public class DiningHall : IDiningHall
                 PrintConsole.Write(Thread.CurrentThread.Name + " got table: "+ freeTable.Id, ConsoleColor.DarkBlue);
                 PrintConsole.Write(Thread.CurrentThread.Name + " got waiter: "+ waiter.Id, ConsoleColor.DarkBlue);
                 
-                //change status of waiter and table here
                 freeTable.Status = Status.Waiting;
                 waiter.IsBusy = true;
                 _mutex.ReleaseMutex();
@@ -86,22 +83,15 @@ public class DiningHall : IDiningHall
 
                 await _orderService.SendOrder(order);
 
-                //free up waiter after sending request to kitchen
                 waiter.IsBusy = false;
             }
             else
             {
                 _mutex.ReleaseMutex();
             }
-            //if there are no free tables or waiters, wait and go to next iteration
             Thread.Sleep(5000);
         }
     }
-
-    //constant/variable sec/min/mlsec
-
-    //unixtimestamp 1 sec = 1 unix
-    //time units * 0.1 = ms  , *1 = sec , *60 = min
 
     public async void ServeOrder(FinishedOrder finishedOrder)
     {

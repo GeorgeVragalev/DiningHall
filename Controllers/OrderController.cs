@@ -18,12 +18,8 @@ public class OrderController : ControllerBase
     [HttpPost]
     public void Distribution([FromBody] FinishedOrder order)
     {
-        //Process order
-        //Call Dininghall function to process the Order and serve it back
         Console.WriteLine("Order "+ order.Id+" received");
         _diningHall.ServeOrder(order);
-
-        // return new FinishedOrder();
     }
     
     [HttpGet]

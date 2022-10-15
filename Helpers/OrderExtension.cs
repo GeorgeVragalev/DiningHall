@@ -6,6 +6,7 @@ namespace DiningHall.Helpers;
 public static class OrderExtension
 {
     private static IList<int> ratings = new List<int>();
+
     public static FinishedOrder MapFinishedOrder(this Order order)
     {
         var finishedOrder = new FinishedOrder()
@@ -19,16 +20,16 @@ public static class OrderExtension
             TableId = order.TableId,
             WaiterId = order.WaiterId,
         };
+
         return finishedOrder;
     }
 
     public static double GetOrderRating(this FinishedOrder order)
     {
         var waitingTime = (DateTime.Now - order.PickUpTime);
-
         var timeElapsed = SetTimeElapsed(waitingTime);
         var rating = GetRating(timeElapsed, order.MaxWait);
-        
+
         ratings.Add(rating);
         PrintConsole.Write($"Received rating {rating} from orderId {order.Id} {timeElapsed} | {order.MaxWait}", ConsoleColor.DarkGreen);
 
@@ -54,11 +55,10 @@ public static class OrderExtension
 
         return timeElapsed;
     }
+
     private static int GetRating(int timeElapsed, int maxWait)
     {
-        
         var rating = 1;
-
         if (timeElapsed < maxWait)
         {
             rating = 5;
@@ -78,10 +78,11 @@ public static class OrderExtension
 
         return rating;
     }
-    
+
     public static int CalculateMaxWaitingTime(this IEnumerable<int> foodList, IFoodService foodService)
     {
         var maxWaitingTime = 0;
+
         foreach (var foodId in foodList)
         {
             var food = foodService.GetFoodById(foodId).Result;

@@ -19,7 +19,7 @@ public class WaiterService : IWaiterService
     public async Task<Waiter> GetAvailableWaiter()
     {
         var waiter = await _waiterRepository.GetAvailableWaiter();
-        
+
         return waiter;
     }
 
