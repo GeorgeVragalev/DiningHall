@@ -44,7 +44,7 @@ public class WaiterRepository : IWaiterRepository
         return null!;
     }
 
-    public async Task<Waiter> GetById(int id)
+    public async Task<Waiter> GetById(int? id)
     {
         var waiterResult = new Waiter();
         foreach (var waiter in _waiters)

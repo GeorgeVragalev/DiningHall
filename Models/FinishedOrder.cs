@@ -2,8 +2,8 @@
 
 public class FinishedOrder : BaseEntity
 {
-    public int TableId { get; set; }
-    public int WaiterId { get; set; }
+    public int? TableId { get; set; }
+    public int? WaiterId { get; set; }
     public int Priority { get; set; }
     public int CookingTime { get; set; }
     public int MaxWait { get; set; }

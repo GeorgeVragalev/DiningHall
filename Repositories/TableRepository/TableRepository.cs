@@ -34,7 +34,7 @@ public class TableRepository : ITableRepository
         return null!;
     }
 
-    public async Task<Table> GetTableById(int id)
+    public async Task<Table> GetTableById(int? id)
     {
         foreach (var table in _tables)
         {

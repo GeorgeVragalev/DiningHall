@@ -7,5 +7,5 @@ public interface ITableRepository
 {
     public ConcurrentBag<Table> GenerateTables();
     public Task<Table> GetFreeTable();
-    public Task<Table> GetTableById(int id);
+    public Task<Table> GetTableById(int? id);
 }

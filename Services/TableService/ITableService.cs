@@ -7,5 +7,5 @@ public interface ITableService
 {
     public Task<Table> GetFreeTable();
     public ConcurrentBag<Table> GenerateTables();
-    public Task<Table> GetTableById(int id);
+    public Task<Table> GetTableById(int? id);
 }

@@ -8,8 +8,10 @@ using DiningHall.Repositories.WaiterRepository;
 using DiningHall.Services;
 using DiningHall.Services.FoodService;
 using DiningHall.Services.OrderService;
+using DiningHall.Services.RestaurantService;
 using DiningHall.Services.TableService;
 using DiningHall.Services.WaiterService;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DiningHall.Settings;
@@ -32,6 +34,7 @@ public class Startup
         services.AddSingleton<IWaiterService, WaiterService>();
         services.AddSingleton<IOrderService, OrderService>();
         services.AddSingleton<IFoodService, FoodService>();
+        services.AddSingleton<IRestaurantService, RestaurantService>();
         services.AddSingleton<IDiningHall, DiningHall.DiningHall>();
         services.AddHostedService<BackgroundTask.BackgroundTask>();
     }

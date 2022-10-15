@@ -5,6 +5,7 @@ using DiningHall.Models;
 using DiningHall.Repositories.FoodRepository;
 using DiningHall.Services.FoodService;
 using DiningHall.Services.OrderService;
+using DiningHall.Services.RestaurantService;
 using DiningHall.Services.TableService;
 using DiningHall.Services.WaiterService;
 using Console = System.Console;
@@ -17,33 +18,36 @@ public class DiningHall : IDiningHall
     private readonly ITableService _tableService;
     private readonly IOrderService _orderService;
     private readonly IFoodService _foodService;
+    private readonly IRestaurantService _restaurantService;
     private static Mutex _mutex = new();
 
     private double _rating = 5;
 
     public ConcurrentBag<Table> Tables;
     public ConcurrentBag<Waiter> Waiters;
-    public ConcurrentBag<Food> Menu;
+    public IList<Food> Menu;
 
     public DiningHall(IOrderService orderService, ITableService tableService,
-        IWaiterService waiterService, IFoodService foodService)
+        IWaiterService waiterService, IFoodService foodService, IRestaurantService restaurantService)
     {
         _orderService = orderService;
         _tableService = tableService;
         _waiterService = waiterService;
         _foodService = foodService;
+        _restaurantService = restaurantService;
     }
 
     private void InitializeDiningHall()
     {
         Waiters = _waiterService.GenerateWaiters();
         Tables = _tableService.GenerateTables();
-        Menu = _foodService.GenerateFood();
+        Menu = _foodService.GenerateFood().ToList();
     }
 
     public void ExecuteCode(CancellationToken cancellationToken)
     {
         InitializeDiningHall();
+        _restaurantService.RegisterRestaurant(Menu, _rating);
         RunThreads(cancellationToken);
     }
 
@@ -51,14 +55,8 @@ public class DiningHall : IDiningHall
     {
         Thread t1 = new Thread(() => RunRestaurant(cancellationToken));
         Thread t2 = new Thread(() => RunRestaurant(cancellationToken));
-        Thread t3 = new Thread(() => RunRestaurant(cancellationToken));
-        Thread t4 = new Thread(() => RunRestaurant(cancellationToken));
-        Thread t5 = new Thread(() => RunRestaurant(cancellationToken));
         t1.Start();
         t2.Start();
-        t3.Start();
-        t4.Start();
-        t5.Start();
     }
 
     public async void RunRestaurant(CancellationToken cancellationToken)

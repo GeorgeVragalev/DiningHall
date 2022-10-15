@@ -29,7 +29,7 @@ public class TableService : ITableService
         return null!;
     }
     
-    public async Task<Table> GetTableById(int id)
+    public async Task<Table> GetTableById(int? id)
     {
         var table = await _tableRepository.GetTableById(id);
 

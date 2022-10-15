@@ -28,7 +28,7 @@ public class WaiterService : IWaiterService
         return _waiterRepository.GenerateWaiters();
     }
 
-    public async Task<Waiter> GetWaiterById(int id)
+    public async Task<Waiter> GetWaiterById(int? id)
     {
         return await _waiterRepository.GetById(id);
     }
