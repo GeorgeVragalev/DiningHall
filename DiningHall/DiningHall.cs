@@ -59,7 +59,7 @@ public class DiningHall : IDiningHall
         t2.Start();
     }
 
-    public async void RunRestaurant(CancellationToken cancellationToken)
+    public async Task RunRestaurant(CancellationToken cancellationToken)
     {
         while (!cancellationToken.IsCancellationRequested)
         {
@@ -91,7 +91,7 @@ public class DiningHall : IDiningHall
         }
     }
 
-    public async void ServeOrder(FinishedOrder finishedOrder)
+    public async Task ServeOrder(FinishedOrder finishedOrder)
     {
         _mutex.WaitOne();
         var waiter = await _waiterService.GetWaiterById(finishedOrder.WaiterId);

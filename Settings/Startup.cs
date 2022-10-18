@@ -33,7 +33,7 @@ public class Startup
         services.AddSingleton<ITableService, TableService>();
         services.AddSingleton<IWaiterService, WaiterService>();
         services.AddSingleton<IOrderService, OrderService>();
-        services.AddSingleton<IFoodService, FoodService>();
+        services.AddSingleton<IFoodService, Services.FoodService.FoodService>();
         services.AddSingleton<IRestaurantService, RestaurantService>();
         services.AddSingleton<IDiningHall, DiningHall.DiningHall>();
         services.AddHostedService<BackgroundTask.BackgroundTask>();

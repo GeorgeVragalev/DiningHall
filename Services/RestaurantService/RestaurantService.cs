@@ -26,7 +26,7 @@ public class RestaurantService : IRestaurantService
          using var client = new HttpClient();
 
          await client.PostAsync(url, data);
-         PrintConsole.Write($"Register restaurant {restaurantData.RestaurantName}",
+         PrintConsole.Write($"Registered restaurant {restaurantData.RestaurantName}",
             ConsoleColor.Green);
       }
       catch (Exception e)
