@@ -1,4 +1,6 @@
-﻿namespace DiningHall.Models;
+﻿using DiningHall.Models.Enum;
+
+namespace DiningHall.Models;
 
 public class Table : BaseEntity
 { 

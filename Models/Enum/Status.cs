@@ -1,4 +1,4 @@
-﻿namespace DiningHall.Models;
+﻿namespace DiningHall.Models.Enum;
 
 public enum Status
 {

@@ -26,12 +26,12 @@ public class FoodService : IFoodService
 
     public async Task<IList<int>> GenerateOrderFood()
     {
-        var size = RandomGenerator.NumberGenerator(10);
+        var size = RandomGenerator.NumberGenerator(6);
         var orderFoodList = new List<int>();
 
         for (var id = 0; id < size; id++)
         {
-            orderFoodList.Add(RandomGenerator.NumberGenerator(13));
+            orderFoodList.Add(RandomGenerator.NumberGenerator(6));
         }
 
         return await Task.FromResult(orderFoodList);

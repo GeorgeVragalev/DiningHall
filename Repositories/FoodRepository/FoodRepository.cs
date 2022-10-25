@@ -46,49 +46,49 @@ public class FoodRepository : IFoodRepository
             Name = "Waffles",
             PreparationTime = 10
         });
-        _menu.Add(new Food
-        {
-            Id = 7,
-            Name = "Aubergine",
-            PreparationTime = 20
-        });
-        _menu.Add(new Food
-        {
-            Id = 8,
-            Name = "Lasagna",
-            PreparationTime = 30
-        });
-        _menu.Add(new Food
-        {
-            Id = 9,
-            Name = "Burger",
-            PreparationTime = 15
-        });
-        _menu.Add(new Food
-        {
-            Id = 10,
-            Name = "Gyros",
-            PreparationTime = 15
-        });
-
-        _menu.Add(new Food
-        {
-            Id = 11,
-            Name = "Kebab",
-            PreparationTime = 15
-        });
-        _menu.Add(new Food
-        {
-            Id = 12,
-            Name = "UnagiMaki",
-            PreparationTime = 20
-        });
-        _menu.Add(new Food
-        {
-            Id = 13,
-            Name = "TobaccoChicken",
-            PreparationTime = 30
-        });
+        // _menu.Add(new Food
+        // {
+        //     Id = 7,
+        //     Name = "Aubergine",
+        //     PreparationTime = 20
+        // });
+        // _menu.Add(new Food
+        // {
+        //     Id = 8,
+        //     Name = "Lasagna",
+        //     PreparationTime = 30
+        // });
+        // _menu.Add(new Food
+        // {
+        //     Id = 9,
+        //     Name = "Burger",
+        //     PreparationTime = 15
+        // });
+        // _menu.Add(new Food
+        // {
+        //     Id = 10,
+        //     Name = "Gyros",
+        //     PreparationTime = 15
+        // });
+        //
+        // _menu.Add(new Food
+        // {
+        //     Id = 11,
+        //     Name = "Kebab",
+        //     PreparationTime = 15
+        // });
+        // _menu.Add(new Food
+        // {
+        //     Id = 12,
+        //     Name = "UnagiMaki",
+        //     PreparationTime = 20
+        // });
+        // _menu.Add(new Food
+        // {
+        //     Id = 13,
+        //     Name = "TobaccoChicken",
+        //     PreparationTime = 30
+        // });
 
         return _menu;
     }

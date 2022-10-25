@@ -7,18 +7,18 @@ public static class OrderExtension
 {
     private static IList<int> ratings = new List<int>();
 
-    public static FinishedOrder MapFinishedOrder(this Order order)
+    public static FinishedOrder MapFinishedOrder(this LocalOrder localOrder)
     {
         var finishedOrder = new FinishedOrder()
         {
-            Id = order.Id,
-            Priority = order.Priority,
-            Foods = order.Foods,
+            Id = localOrder.Id,
+            Priority = localOrder.Priority,
+            Foods = localOrder.Foods,
             CookingDetails = new List<CookingDetails>(),
-            MaxWait = order.MaxWait,
+            MaxWait = localOrder.MaxWait,
             CookingTime = 0,
-            TableId = order.TableId,
-            WaiterId = order.WaiterId,
+            TableId = localOrder.TableId,
+            WaiterId = localOrder.WaiterId,
         };
 
         return finishedOrder;
@@ -31,7 +31,7 @@ public static class OrderExtension
         var rating = GetRating(timeElapsed, order.MaxWait);
 
         ratings.Add(rating);
-        PrintConsole.Write($"Received rating {rating} from orderId {order.Id} {timeElapsed} | {order.MaxWait}", ConsoleColor.DarkGreen);
+        // PrintConsole.Write($"Received rating {rating} from orderId {order.Id} {timeElapsed} | {order.MaxWait}", ConsoleColor.DarkGreen);
 
         return ratings.Average();
     }

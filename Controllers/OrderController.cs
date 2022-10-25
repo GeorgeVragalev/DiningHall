@@ -2,6 +2,8 @@
 using DiningHall.DiningHall;
 using DiningHall.Helpers;
 using DiningHall.Models;
+using DiningHall.Models.Enum;
+using DiningHall.Services.OrderService;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -12,41 +14,39 @@ namespace DiningHall.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly IDiningHall _diningHall;
+    private readonly IOrderService _orderService;
 
-    public OrderController(IDiningHall diningHall)
+    public OrderController(IDiningHall diningHall, IOrderService orderService)
     {
         _diningHall = diningHall;
+        _orderService = orderService;
     }
 
     [HttpPost]
     public async Task Distribution([FromBody] FinishedOrder order)
     {
-        Console.WriteLine("Order "+ order.Id+" received");
-        _diningHall.ServeOrder(order);
+
+        if (order.OrderType == OrderType.DiningHallOrder)
+        {
+            Console.WriteLine("Order "+ order.Id+" received");
+            // await _diningHall.ServeOrder(order);
+        }
+        else
+        {
+            Console.WriteLine($"Client Order {order.ClientId} received");
+            //serve to client
+            //send order to food service and mark it as cooked
+            //or store client orders on repository here for pick up
+        }
     }
     
     [HttpPost("/sendorder")]
-    public async Task PickUpClientOrder([FromBody] ClientOrder order)
+    public async Task PickUpClientOrder([FromBody] Order order)
     {
         Console.WriteLine($"Order {order.Id} from group order {order.GroupOrderId} received in dining hall");
         // _diningHall.ServeOrder(order);
-        
-        try
-        {
-            var json = JsonConvert.SerializeObject(order);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var url = Settings.Settings.GlovoUrl+"/serve";
-            using var client = new HttpClient();
-
-            await client.PostAsync(url, data);
-            PrintConsole.Write($"Order {order.Id} is prepared and sent to glovo", ConsoleColor.Green);
-        }
-        catch (Exception e)
-        {
-            PrintConsole.Write(Thread.CurrentThread.Name + " Failed to send order id: " + order.Id,
-                ConsoleColor.DarkRed);
-        }
+        order.Id = IdGenerator.GenerateId();
+        await _orderService.SendOrder(order);
     }
     
     [HttpGet]

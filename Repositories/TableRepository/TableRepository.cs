@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using DiningHall.Models;
+using DiningHall.Models.Enum;
 
 namespace DiningHall.Repositories.TableRepository;
 

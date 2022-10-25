@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using DiningHall.Helpers;
 using DiningHall.Models;
+using DiningHall.Models.Enum;
 using DiningHall.Repositories.FoodRepository;
 using DiningHall.Services.FoodService;
 using DiningHall.Services.OrderService;
@@ -21,7 +22,7 @@ public class DiningHall : IDiningHall
     private readonly IRestaurantService _restaurantService;
     private static Mutex _mutex = new();
 
-    private double _rating = 5;
+    public static double _rating = 5;
 
     public ConcurrentBag<Table> Tables;
     public ConcurrentBag<Waiter> Waiters;
@@ -51,12 +52,12 @@ public class DiningHall : IDiningHall
         RunThreads(cancellationToken);
     }
 
-    private async void RunThreads(CancellationToken cancellationToken)
+    private void RunThreads(CancellationToken cancellationToken)
     {
         Thread t1 = new Thread(() => RunRestaurant(cancellationToken));
-        Thread t2 = new Thread(() => RunRestaurant(cancellationToken));
+        // Thread t2 = new Thread(() => RunRestaurant(cancellationToken));
         t1.Start();
-        t2.Start();
+        // t2.Start();
     }
 
     public async Task RunRestaurant(CancellationToken cancellationToken)
@@ -70,8 +71,8 @@ public class DiningHall : IDiningHall
             if (freeTable != null && waiter != null)
             {
                 Console.WriteLine();
-                PrintConsole.Write(Thread.CurrentThread.Name + " got table: "+ freeTable.Id, ConsoleColor.DarkBlue);
-                PrintConsole.Write(Thread.CurrentThread.Name + " got waiter: "+ waiter.Id, ConsoleColor.DarkBlue);
+                PrintConsole.Write($"Got table: {freeTable.Id}", ConsoleColor.DarkBlue);
+                PrintConsole.Write($"Got waiter: {waiter.Id}", ConsoleColor.DarkBlue);
                 
                 freeTable.Status = Status.Waiting;
                 waiter.IsBusy = true;
@@ -107,7 +108,7 @@ public class DiningHall : IDiningHall
 
             var waitingTime = finishedOrder.GetOrderRating();
             _rating = waitingTime;
-            PrintConsole.Write($"Current rating: {_rating}", ConsoleColor.Green);
+            // PrintConsole.Write($"Current rating: {_rating}", ConsoleColor.Green);
 
             waiter.IsBusy = false;
 

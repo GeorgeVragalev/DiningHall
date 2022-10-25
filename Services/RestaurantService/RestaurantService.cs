@@ -11,11 +11,13 @@ public class RestaurantService : IRestaurantService
    {
       var restaurantData = new RestaurantData()
       {
-         Id = 1,
+         Id =  Settings.Settings.RestaurantId,
          Menu = menu,
          Rating = rating,
-         RestaurantName = "Andy's Pizza"
+         RestaurantName = Settings.Settings.RestaurantName,
+         Url = Settings.Settings.RestaurantUrl
       };
+      Settings.Settings.Restaurant = restaurantData;
       
       try
       {
