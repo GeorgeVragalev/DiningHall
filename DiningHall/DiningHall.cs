@@ -55,9 +55,9 @@ public class DiningHall : IDiningHall
     private void RunThreads(CancellationToken cancellationToken)
     {
         Thread t1 = new Thread(() => RunRestaurant(cancellationToken));
-        // Thread t2 = new Thread(() => RunRestaurant(cancellationToken));
+        Thread t2 = new Thread(() => RunRestaurant(cancellationToken));
         t1.Start();
-        // t2.Start();
+        t2.Start();
     }
 
     public async Task RunRestaurant(CancellationToken cancellationToken)

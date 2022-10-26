@@ -29,7 +29,7 @@ public class OrderController : ControllerBase
         if (order.OrderType == OrderType.DiningHallOrder)
         {
             Console.WriteLine("Order "+ order.Id+" received");
-            // await _diningHall.ServeOrder(order);
+            await _diningHall.ServeOrder(order);
         }
         else
         {
