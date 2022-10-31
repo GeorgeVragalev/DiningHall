@@ -1,9 +1,7 @@
 ﻿using System.Collections.Concurrent;
-using System.Diagnostics;
 using DiningHall.Helpers;
 using DiningHall.Models;
 using DiningHall.Models.Enum;
-using DiningHall.Repositories.FoodRepository;
 using DiningHall.Services.FoodService;
 using DiningHall.Services.OrderService;
 using DiningHall.Services.RestaurantService;
@@ -80,7 +78,7 @@ public class DiningHall : IDiningHall
                 var order = await _waiterService.TakeOrder(freeTable, waiter);
                 waiter.ActiveOrdersIds.Add(order.Id);
 
-                await _orderService.SendOrder(order);
+                await _orderService.SendOrder(order, Settings.Settings.KitchenUrl);
 
                 waiter.IsBusy = false;
             }
@@ -108,7 +106,7 @@ public class DiningHall : IDiningHall
 
             var waitingTime = finishedOrder.GetOrderRating();
             _rating = waitingTime;
-            // PrintConsole.Write($"Current rating: {_rating}", ConsoleColor.Green);
+            PrintConsole.Write($"Current rating: {_rating}", ConsoleColor.Green);
 
             waiter.IsBusy = false;
 

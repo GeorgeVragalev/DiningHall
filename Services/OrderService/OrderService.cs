@@ -16,14 +16,13 @@ public class OrderService : IOrderService
         _foodService = foodService;
     }
 
-    public async Task SendOrder(Order order)
+    public async Task SendOrder(Order order, string url)
     {
         try
         {
             var json = JsonConvert.SerializeObject(order);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var url = Settings.Settings.KitchenUrl;
             using var client = new HttpClient();
 
             await client.PostAsync(url, data);
@@ -50,7 +49,7 @@ public class OrderService : IOrderService
             MaxWait = foodList.CalculateMaxWaitingTime(_foodService),
             ClientId = 0,
             OrderType = OrderType.DiningHallOrder,
-            RestaurantId = 1,
+            RestaurantId = Settings.Settings.RestaurantId,
             GroupOrderId = 0
         };
         PrintConsole.Write($"Generated order: {order.Id} waiting time {order.MaxWait}", ConsoleColor.Cyan);

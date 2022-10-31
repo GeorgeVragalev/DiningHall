@@ -34,9 +34,8 @@ public class OrderController : ControllerBase
         else
         {
             Console.WriteLine($"Client Order {order.ClientId} received");
-            //serve to client
-            //send order to food service and mark it as cooked
-            //or store client orders on repository here for pick up
+            var clientOrder = order.MapOrder();
+            await _orderService.SendOrder(clientOrder, $"{Settings.Settings.GlovoUrl}/serve");
         }
     }
     
@@ -44,9 +43,17 @@ public class OrderController : ControllerBase
     public async Task PickUpClientOrder([FromBody] Order order)
     {
         Console.WriteLine($"Order {order.Id} from group order {order.GroupOrderId} received in dining hall");
-        // _diningHall.ServeOrder(order);
         order.Id = IdGenerator.GenerateId();
-        await _orderService.SendOrder(order);
+        await _orderService.SendOrder(order, Settings.Settings.KitchenUrl);
+    }
+    
+    [HttpPost("/rating")]
+    public Task SubmitRating([FromBody] OrderRating orderRating)
+    {
+        PrintConsole.Write($"Submitting rating {orderRating.Rating} for order {orderRating.Order.Id}", ConsoleColor.Green);
+        var average = OrderExtension.AddClientRating(orderRating.Rating);
+        PrintConsole.Write($"Current rating after client: {average}", ConsoleColor.Green);
+        return Task.CompletedTask;
     }
     
     [HttpGet]

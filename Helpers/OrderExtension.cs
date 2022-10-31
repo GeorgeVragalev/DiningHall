@@ -23,7 +23,34 @@ public static class OrderExtension
 
         return finishedOrder;
     }
+    
+    public static Order MapOrder(this FinishedOrder finishedOrder)
+    {
+        var order = new Order()
+        {
+            Id = finishedOrder.Id,
+            Priority = finishedOrder.Priority,
+            Foods = finishedOrder.Foods,
+            ClientId = finishedOrder.ClientId,
+            MaxWait = finishedOrder.MaxWait,
+            OrderType = finishedOrder.OrderType,
+            TableId = finishedOrder.TableId,
+            WaiterId = finishedOrder.WaiterId,
+            RestaurantId = finishedOrder.RestaurantId,
+            GroupOrderId = finishedOrder.GroupOrderId,
+            OrderStatusEnum = finishedOrder.OrderStatusEnum,
+            PickUpTime = finishedOrder.PickUpTime
+        };
 
+        return order;
+    }
+
+    public static double AddClientRating(int rating)
+    {
+        ratings.Add(rating);
+        return ratings.Average();
+    }
+    
     public static double GetOrderRating(this FinishedOrder order)
     {
         var waitingTime = (DateTime.Now - order.PickUpTime);
